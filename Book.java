@@ -1,6 +1,7 @@
 /** -------------------------------------------------------
  * Assignment 1
  * Written by: Rubiat Zaman, 40062082
+ * Submitted on Github
  * For COMP 249 Section PA – Winter 2018
  * Due date: January 31st 2018
  * This program has a 'Book' class that contains 4 attributes. The goal is to create a
