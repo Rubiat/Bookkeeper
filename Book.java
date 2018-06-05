@@ -1,9 +1,5 @@
 /** -------------------------------------------------------
- * Assignment 1
- * Written by: Rubiat Zaman, 40062082
- * Submitted on Github
- * For COMP 249 Section PA – Winter 2018
- * Due date: January 31st 2018
+ * Written by: Rubiat Zaman
  * This program has a 'Book' class that contains 4 attributes. The goal is to create a
  * bookkeeper software that can keep track and modify the attributes of the books 
  *  -------------------------------------------------------- */
@@ -99,7 +95,14 @@ public class Book {
 
 				if (passEntered2.equals(password)) { /** when the user enters the pass correctly */
 					System.out.println("Which book (index number) do you wish to update?");
-					int index = input.nextInt();
+					int index = 0;
+
+					do {
+						index = input.nextInt();
+						if (index < 0 || index > inventory.length-1)
+							System.out.println("Index number " + index + " does not exist");
+					}
+					while (index < 0 || index > inventory.length-1);
 
 					if (inventory[index] == null) {  /** if the slot entered by the user does not contain any book */
 						do {
@@ -108,21 +111,20 @@ public class Book {
 							index = input.nextInt();
 							if (index == -1)
 								break; /** user enters this if they wish to go back to main menu */
-						} while (inventory[index] == null);  /** keep prompting until user enters valid slot or decides to go to main menu */
+						} while (index < 0 || index > inventory.length-1 || inventory[index] == null);  /** keep prompting until user enters valid slot or decides to go to main menu */
 					}
-					
+
 					if (index == -1)
 						break; /** break again so that it breaks out of the outer while loop */
-					
-					if (inventory[index] != null) {  /**  if this index has a book */
-						System.out.println("Book # " + index + 
-								"\nAuthor: " + inventory[index].getAuthor() + 
-								"\nTitle: " + inventory[index].getTitle() + 
-								"\nISBN: " + inventory[index].getISBN() +
-								"\nPrice: $" + inventory[index].getPrice());
-						
-						int choice; /** choices for option 2 menu */
-						do {
+
+					System.out.println("Book # " + index + 
+							"\nAuthor: " + inventory[index].getAuthor() + 
+							"\nTitle: " + inventory[index].getTitle() + 
+							"\nISBN: " + inventory[index].getISBN() +
+							"\nPrice: $" + inventory[index].getPrice());
+
+					int choice; /** choices for option 2 menu */
+					do {
 						System.out.println("\nWhich information would you like to change? "
 								+ "\n\t1. author"
 								+ "\n\t2. title"
@@ -130,79 +132,81 @@ public class Book {
 								+ "\n\t4. price"
 								+ "\n\t5. Quit"
 								+ "\nEnter your choice");
-						
+
 						choice = input.nextInt();
 						switch (choice) /** different cases/options for the options in option 2 */
 						{
 						case 1: 
 							System.out.println("Enter new author:");
-							String newAuthor = input.next();
+							input.nextLine();
+							String newAuthor = input.nextLine();
 							inventory[index].setAuthor(newAuthor);
 							System.out.println(inventory[index]); /** prints the info of the book to display the change */
 							break;
-							
+
 						case 2: 
 							System.out.println("Enter new title");
-							String newTitle = input.next();
+							input.nextLine();
+							String newTitle = input.nextLine();
 							inventory[index].setTitle(newTitle);
 							System.out.println(inventory[index]);
 							break;
-							
+
 						case 3: 
 							System.out.println("Enter new ISBN");
 							long newIsbn = input.nextLong();
 							inventory[index].setISBN(newIsbn);
 							System.out.println(inventory[index]);
 							break;
-							
+
 						case 4:
 							System.out.println("Enter new price");
 							double newPrice = input.nextDouble();
 							inventory[index].setPrice(newPrice);
 							System.out.println(inventory[index]);
 							break;
-							
+
 						case 5:
 							break;
-							
+
 						default: ;
 						} /** end of switch for option 2 options */
-						} while (choice != 5); /** if user chooses 5 then it quits the option 2 menu */
-					}
+					} while (choice != 5); /** if user chooses 5 then it quits the option 2 menu */
 				}
 				break;
-				
+
 			case 3: 
-				
+
 				System.out.println("Author: ");
-				String specificAuthor = input.next();
+				input.nextLine();
+				String specificAuthor = input.nextLine();
 				for (int i = 0; i <NumOfBooks; i++) {
 					if (inventory[i].getAuthor().equals(specificAuthor))
 						System.out.println(inventory[i]);  /** if the book has same author as user input, it prints its info */
 				}
-				
+
 				break;
-				
+
 			case 4:
-				
+
 				System.out.println("Price: ");
 				double specificPrice = input.nextDouble();
 				for (int i = 0; i < NumOfBooks; i++) {
 					if (inventory[i].getPrice() < specificPrice)
 						System.out.println(inventory[i]);   /** book prints its info if it has the same price as the user input */
 				}
-				
+
 				break;
-				
+
 			case 5: 
-				
+
 				System.out.println("Thank you for using the Bookkeeper Software");
 				System.exit(0);
 
 			}
 		} while (true);
-		
-		
+
+
 	}
 
 
@@ -232,7 +236,7 @@ public class Book {
 		this.price = price;
 		NumOfBooks++;
 	}
-	
+
 	public Book(Book b) {
 		this.title = b.title;
 		this.author = b.author;
@@ -287,7 +291,7 @@ public class Book {
 		return NumOfBooks;
 	}
 
-	
+
 	/** displays the main menu */
 	public static void mainMenu() {
 		System.out.println("What do you want to do?"
